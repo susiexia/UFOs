@@ -2,7 +2,7 @@
 const tableData = data;
 
 // reference the HTML table(output) using d3 library
-var tbody = d3.select('tbody')
+var tbody = d3.select('tbody');
 
 // Function of populate data into html table
 function buildTable(data) {
@@ -21,23 +21,23 @@ function buildTable(data) {
     });
 
     
-}
+};
 
 
 function handleClick() {
-    let inputdate = d3.select('#datetime').property('value');
+    let inputdate = d3.select("#datetime").property("value");
     // init filtered table
     let filteredData = tableData;
     // a if condition statement(contains a nested filter condition)
-    if (date) {
+    if (inputdate) {
         filteredData = filteredData.filter((row) => row.datetime === inputdate);
     };
     //  Directly call buildTable function,no nessecery to write else statement
     buildTable(filteredData);
-}
+};
 
 // d3 event handling
-d3.select('#filter-btn').on('click', handleClick);
+d3.select("#filter-btn").on("click", handleClick);
 
 // show original table when page loads, before event triggerd
 buildTable(tableData);
