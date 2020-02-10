@@ -20,7 +20,6 @@ function buildTable(data) {
         });
     });
 
-    
 };
 // Keep track of all filters
 var filters = {};
@@ -28,16 +27,15 @@ var filters = {};
 function updateFilters() {
     // Save the element, value, and id of the filter that was changed
         
-        var inputElement = d3.select(this);
-        var inputID = inputElement.attr("id");
+        let inputElement = d3.select(this);
+        let inputID = inputElement.attr("id");
         
-        var inputValue = inputElement.property("value");
+        let inputValue = inputElement.property("value");
     
-    // Create an if-else statement to add filter data from input
+        // Create an if-else statement to add filter data from input
         if (inputValue) {
             filters[inputID] = inputValue;
-        } else{filters={};};
-    
+        } else{filters ={};};
 
     //console.log(filters)
 
@@ -54,28 +52,22 @@ function filterTable(obj) {
 
     Object.entries(obj).forEach(([fkey, fval]) =>{
         
-            filteredData = filteredData.filter((row) => row[fkey] === fval)
+        filteredData = filteredData.filter((row) => row[fkey] === fval)
             
 
     });
 
-
-
     // Finally, rebuild the table using the filtered Data
     buildTable(filteredData);
-  };
-
-
+};
 
 
 
 // d3 event handling
-function inputall(){
-    d3.selectAll("input").on("change",updateFilters);
-};
 
-d3.selectAll("#filter-btn").on("click", inputall);
-                            
+
+d3.selectAll("input").on("change",updateFilters);
+                    
 
 // show original table when page loads, before event triggerd
 buildTable(tableData);
