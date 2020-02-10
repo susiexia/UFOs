@@ -22,22 +22,60 @@ function buildTable(data) {
 
     
 };
+// Keep track of all filters
+var filters = {};
 
+function updateFilters() {
+    // Save the element, value, and id of the filter that was changed
+        
+        var inputElement = d3.select(this);
+        var inputID = inputElement.attr("id");
+        
+        var inputValue = inputElement.property("value");
+    
+    // Create an if-else statement to add filter data from input
+        if (inputValue) {
+            filters[inputID] = inputValue;
+        } else{filters={};};
+    
 
-function handleClick() {
-    let inputdate = d3.select("#datetime").property("value");
-    // init filtered table
-    let filteredData = tableData;
-    // a if condition statement(contains a nested filter condition)
-    if (inputdate) {
-        filteredData = filteredData.filter((row) => row.datetime === inputdate);
-    };
-    //  Directly call buildTable function,no nessecery to write else statement
-    buildTable(filteredData);
+    //console.log(filters)
+
+    // Call function to apply all filters and rebuild the table
+    filterTable(filters);
 };
 
+function filterTable(obj) {
+
+    // Set the filteredData to the tableData
+    let filteredData = tableData;
+    // Loop through all of the filters and keep any data that
+    // matches the filter values
+
+    Object.entries(obj).forEach(([fkey, fval]) =>{
+        
+            filteredData = filteredData.filter((row) => row[fkey] === fval)
+            
+
+    });
+
+
+
+    // Finally, rebuild the table using the filtered Data
+    buildTable(filteredData);
+  };
+
+
+
+
+
 // d3 event handling
-d3.select("#filter-btn").on("click", handleClick);
+function inputall(){
+    d3.selectAll("input").on("change",updateFilters);
+};
+
+d3.selectAll("#filter-btn").on("click", inputall);
+                            
 
 // show original table when page loads, before event triggerd
 buildTable(tableData);
